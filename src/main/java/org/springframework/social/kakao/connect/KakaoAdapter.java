@@ -6,6 +6,7 @@ import org.springframework.social.connect.UserProfile;
 import org.springframework.social.connect.UserProfileBuilder;
 import org.springframework.social.kakao.api.Kakao;
 import org.springframework.social.kakao.api.KakaoProfile;
+import org.springframework.social.kakao.api.KakaoProfileProperties;
 
 public class KakaoAdapter implements ApiAdapter<Kakao> {
 	@Deprecated
@@ -16,6 +17,8 @@ public class KakaoAdapter implements ApiAdapter<Kakao> {
 	
 	public void setConnectionValues(Kakao kakao, ConnectionValues values) {
 		KakaoProfile profile = kakao.userOperation().getUserProfile();
+		KakaoProfileProperties properties = profile.getProperties();
+		if(properties == null) properties = new KakaoProfileProperties();
 		values.setProviderUserId(Long.toString(profile.getId()));
 		values.setDisplayName(profile.getProperties().getNickname());
 		values.setProfileUrl("");
